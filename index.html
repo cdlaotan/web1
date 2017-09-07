@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>简易购物车</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+		<style type="text/css">
+			.item{
+				width:40px;
+				text-align: center;
+			}
+			body{
+				text-align: center;
+			}
+		</style>
+		<script type="text/javascript" src="js/angular.js"></script>
+		<script src="js/app.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body ng-app="app">
+		<div class="container" ng-controller="cartController">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<table class="table table-bordered" ng-show="items.length>0">
+						<tr>
+							<td><input type="checkbox" ng-checked="isAllSelected()" ng-click="selectAll($event)" /></td>
+							<td>商品名</td>
+							<td>数量</td>
+							<td>单价</td>
+							<td>小计</td>
+							<td>操作</td>
+						</tr>
+						<tr ng-repeat="item in items track by $index">
+							<td><input type="checkbox" ng-checked="item.selected"  ng-click="selectItem(item.id)"/></td>
+							<td>{{item.name}}--{{$index}}</td>
+							<td>
+								<span class="btn btn-info btn-xs glyphicon glyphicon-minus" ng-disabled="item.nums==1"></span>
+								<input type="text" ng-model="item.nums" class="item" />
+								<span class="btn btn-info btn-xs glyphicon glyphicon-plus" ng-click="addNums($index)"></span>
+							</td>
+							<td>{{item.price}}</td>
+							<td>{{item.nums*item.price}}</td>
+							<td><button class="btn btn-danger" ng-click="remove(item.id)">删除</button></td>
+						</tr>
+					</table>
+					<p ng-hide="items.length>0">您的购物车空空如也！</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 col-md-offset-3">
+					<button class="btn btn-danger" ng-click="items=[]">清空购物车</button> 总金额:￥{{getTotalMoney()}}
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
